@@ -1,5 +1,23 @@
 # gitlab-selfhosted
 
+## Быстрая установка и запуск
+
+    git clone git@github.com:luckacha/gitlab-selfhosted.git
+    cd gitlab-selfhosted
+    docker compose up -d
+
+Первый запуск — 5–10 минут (инициализация БД).
+Пароль root:
+
+    docker exec gitlab cat /etc/gitlab/initial_root_password
+
+Веб-интерфейс: http://localhost:8929, логин `root`.
+Файл с паролем удаляется через 24 часа — смени пароль сразу.
+
+
+
+
+# GitLab CE: разбор 
 
   GitLab в настоящее время недоступен для пользователей из РФ, опыт использования заканчивается на этапе регистрации и подтверждения личности.
 Поэтому мной было принято решение использовать GitLab CE (Community Edition) вместо обычного GitLab. 
@@ -54,5 +72,10 @@ GitLab CE работает из одного Docker контейнера, в к�
 6. Что пошло не так
   При запуске GitLab локально я столкнулся с проблемами. 1 - Допустил опечатки, 2 - использовал вместо Ruby YAML (1 строчка была написана случайно на YAML в блоке Ruby).
   Уход контейнера в рестарт-луп я обнаружил с помощью RestartCount, после этого открыл логи, исправил ошибки.
+  external_url: 'http://localhost:8929'   # неверно, это YAML
+  external_url 'http://localhost:8929'    # верно, это Ruby
+  Диагностика:
+    docker inspect -f '{{.RestartCount}}' gitlab
+    docker compose logs gitlab
 
 
