@@ -4,10 +4,14 @@ services:
     container_name: gitlab
     hostname: localhost
     restart: unless-stopped
+    mem_limit: 2600m
+    memswap_limit: 5g
 
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://localhost:8929'
+        external_url 'https://gitlab.ssfp.ru'
+        letsencrypt['enable'] = false
+        nginx['listen_https'] = false
         gitlab_rails['gitlab_shell_ssh_port'] = 2224
         puma['worker_processes'] = 2
         sidekiq['max_concurrency'] = 9
